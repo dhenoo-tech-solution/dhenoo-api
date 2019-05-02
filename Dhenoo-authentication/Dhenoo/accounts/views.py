@@ -35,23 +35,47 @@ class MobileUserListView(generics.ListCreateAPIView):
 
 
 class createMobileUser(generics.CreateAPIView):
-    lookup_field='mobile'
     serializer_class=MobileUserSerializer
-    #permission_classes = IsAuthenticated
-    """ def get_queryset(self):
-        return MobileUser.objects.all() """
+    model = MobileUser
+    queryset = MobileUser.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = MobileUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse({'status':status.HTTP_201_CREATED,'message':'User created successfully','payload':serializer.data})
+        return JsonResponse({'status':status.HTTP_400_BAD_REQUEST,'message':serializer.errors,'payload':None})
+
 
 class updateMobileUser(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'mobile'
     serializer_class = MobileUserSerializer
     def get_queryset(self):
         return MobileUser.objects.all()
+    
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            serializer = MobileUserSerializer(instance=instance)
+            return JsonResponse({'status':status.HTTP_200_OK,'message':'User detail','payload':serializer.data})
+        except Exception as e:
+            return JsonResponse({'status':status.HTTP_404_NOT_FOUND,'message':str(e),'payload':None})
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = MobileUserSerializer(
+            instance=instance,
+            data=request.data
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse({'status':status.HTTP_200_OK,'message':'User details updated successfully','payload':serializer.data})
+        return JsonResponse({'status':status.HTTP_400_BAD_REQUEST,'message':serializer.errors,'payload':None})
 
 # Create your views here.
 @api_view(['POST'])
 @permission_classes((AllowAny,))
 def generateOTP(request):
-    json_data_response={}
     mobile=request.data.get("mobile")
     conn = http.client.HTTPConnection("control.msg91.com")
     payload = {'authkey':"271650AhgEeZi4lz5caca5e1",'message':"your otp is ##OTP##",'sender':"ABCDEF",'mobile':mobile}
@@ -65,18 +89,12 @@ def generateOTP(request):
     res = conn.getresponse()
     api_response = json.loads(res.read().decode("utf-8"))
     if api_response['type'] == 'success':
-        json_data_response['status']=status.HTTP_200_OK
-        json_data_response['message']=f"OTP succesfully sent on {mobile},Please enter OTP"
-    else:
-        json_data_response['status']=status.HTTP_400_BAD_REQUEST
-        json_data_response['message']=api_response['message']
-    json_data_response['payload']=None
-    return JsonResponse(json_data_response)
+        return JsonResponse({'status':status.HTTP_200_OK,'message':f"OTP succesfully sent on {mobile},Please enter OTP",'payload':None })
+    return JsonResponse({'status':status.HTTP_400_BAD_REQUEST,'message':api_response['message'],'payload':None })
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))
 def verifyOTP(request):
-    json_data_response={}
     mobile=request.data.get("mobile")
     otp=request.data.get("otp")
     conn = http.client.HTTPSConnection("control.msg91.com")
@@ -90,62 +108,42 @@ def verifyOTP(request):
     res = conn.getresponse()
     api_response = json.loads(res.read().decode("utf-8"))
     if api_response['type'] == 'success':
-        json_data_response['status']=status.HTTP_200_OK
         is_registered = MobileUser.objects.filter(mobile=mobile).exists()
-        json_data_response['payload']={'is_registered' : is_registered}
         if is_registered:
-            json_data_response['message']='OTP verified'
             user_data_json = model_to_dict( MobileUser.objects.get(mobile=mobile) )
             #we can have better logic for below statement
             user_data_json={key: user_data_json[key] for key in user_data_json if key not in ['id','password','last_login','active','staff','admin']}
-            json_data_response['payload']['user_data'] = user_data_json
-        else:
-            json_data_response['message']='OTP verified,but user is not registered'
-    else:
-        json_data_response['status']=status.HTTP_401_UNAUTHORIZED
-        json_data_response['message']=api_response['message']
-        json_data_response['payload']=None
-    return JsonResponse(json_data_response)
+            return JsonResponse({'status':status.HTTP_200_OK,'message':"OTP verified",'payload':{'is_registered' : is_registered,'user_data':user_data_json} })
+        return JsonResponse({'status':status.HTTP_200_OK,'message':"OTP verified,but user is not registered",'payload':{'is_registered' : is_registered,'user_data':None} })
+    return JsonResponse({'status':status.HTTP_401_UNAUTHORIZED,'message':api_response['message'],'payload':None })
 
 @api_view(['GET'])
 @permission_classes((AllowAny,))
 def getStateList(request):
     state_list=sorted(list(data['STATE NAME'].unique()))
-    json_data_response={}
-    json_data_response['status']=status.HTTP_200_OK
-    json_data_response['message']="Please Select State"
-    json_data_response['payload']={'State_list':state_list}
-    return JsonResponse(json_data_response)
+    if state_list:
+        return JsonResponse({'status':status.HTTP_200_OK,'message':"Please Select State",'payload':{'State_list':state_list} })
+    return JsonResponse({'status':status.HTTP_204_NO_CONTENT,'message':"Please try again",'payload':{'State_list':state_list} })
+
+    
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))
 def getDistrictList(request):
     state=request.data.get("state")
-    json_data_response={}
     district_list=sorted(list(data[data['STATE NAME']==state]['DISTRICT NAME'].unique()))
     if district_list:
-        json_data_response['status']=status.HTTP_200_OK
-        json_data_response['message']="Please Select District"
-    else:
-        json_data_response['status']=status.HTTP_204_NO_CONTENT
-        json_data_response['message']="Please type valid state"
-    json_data_response['payload']={'District_list':district_list}
-    return JsonResponse(json_data_response)
+        return JsonResponse({'status':status.HTTP_200_OK,'message':"Please Select District",'payload':{'District_list':district_list} })
+    return JsonResponse({'status':status.HTTP_204_NO_CONTENT,'message':"Please type valid state",'payload':{'District_list':district_list} })
 
 @api_view(['POST'])
 @permission_classes((AllowAny,))
 def getTehsilList(request):
     district=request.data.get("district")
     tehsil_list=sorted(list(data[data['DISTRICT NAME']==district]['TEHSIL NAME'].unique()))
-    json_data_response={}
     if tehsil_list:
-        json_data_response['status']=status.HTTP_200_OK
-        json_data_response['message']="Please Select Tehsil"
-    else:
-        json_data_response['status']=status.HTTP_204_NO_CONTENT
-        json_data_response['message']="Please type valid district"
-    json_data_response['payload']={'Tehsil_list':tehsil_list}
-    return JsonResponse(json_data_response)
+        return JsonResponse({'status':status.HTTP_200_OK,'message':"Please Select Tehsil",'payload':{'Tehsil_list':tehsil_list} })
+    return JsonResponse({'status':status.HTTP_204_NO_CONTENT,'message':"Please type valid district",'payload':{'Tehsil_list':tehsil_list} })
 
 
 @api_view(['POST'])
@@ -153,14 +151,6 @@ def getTehsilList(request):
 def getVillageList(request):
     tehsil=request.data.get("tehsil")
     village_list=sorted(list(data[data['TEHSIL NAME']==tehsil]['VILLAGE NAME'].unique()))
-    json_data_response={}
     if village_list:
-        json_data_response['status']=status.HTTP_200_OK
-        json_data_response['message']="Please Select Village"
-    else:
-        json_data_response['status']=status.HTTP_204_NO_CONTENT
-        json_data_response['message']="Please type valid tehsil"
-    json_data_response['payload']={'village_list':village_list}
-    return JsonResponse(json_data_response)
-
-    
+        return JsonResponse({'status':status.HTTP_200_OK,'message':"Please Select Village",'payload':{'village_list':village_list} })
+    return JsonResponse({'status':status.HTTP_204_NO_CONTENT,'message':"Please type valid tehsil",'payload':{'village_list':village_list} })
