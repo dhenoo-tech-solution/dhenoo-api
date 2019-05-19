@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -60,12 +61,15 @@ class MobileUser(AbstractBaseUser):
     ))
     dob = models.DateField(null=True, blank=True)
     state = models.CharField(max_length=20)
-    district = models.CharField(max_length=20,default=None)
-    tehsil= models.CharField(max_length=20,default=None)
-    village = models.CharField(max_length=20,default=None)
+    district = models.CharField(max_length=20,default='')
+    tehsil= models.CharField(max_length=20,default='')
+    village = models.CharField(max_length=20,default='')
     daily_milk_production=models.IntegerField(default=0)
     milk_type=models.CharField(max_length=20)
     number_animals=models.IntegerField(default=0)
+    otp_count=models.IntegerField(default=1)
+    mobile_info=models.CharField(max_length=20,default='')
+    last_login=models.DateTimeField(default=datetime.now,blank=True)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser

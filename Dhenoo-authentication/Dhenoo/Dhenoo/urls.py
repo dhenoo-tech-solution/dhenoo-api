@@ -20,7 +20,7 @@ from accounts.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', include('drfpasswordless.urls')),
-    path('otp/generateOTP/', generateOTP, name='generateOTP'),
-    path('otp/verifyOTP/', verifyOTP, name='verifyOTP'),
+    #path('otp/generateOTP/', generateOTP, name='generateOTP'),
+    #path('otp/verifyOTP/', verifyOTP, name='verifyOTP'),
     path('api/v1/', include('api.urls')),
 ]

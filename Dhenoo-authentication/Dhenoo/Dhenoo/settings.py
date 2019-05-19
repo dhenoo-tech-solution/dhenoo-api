@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'kv7qb6kor2ugom-uwz7!&ehj=nld4!m=z(tn((!fw!=4&h_@d5'
-
+AUTH_KEY='271650AhgEeZi4lz5caca5e1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -122,13 +122,60 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose'
+        },
+        'applogfile': {
+        'level':'DEBUG',
+        'class':'logging.handlers.RotatingFileHandler',
+        'filename': os.path.join(BASE_DIR,'Dhenoo_Backend_log.log'),
+        'maxBytes': 1024*1024*15, # 15MB
+        'backupCount': 10,
+        'formatter': 'verbose'
+    },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'accounts': {
+            'handlers': ['applogfile',],
+            'level': 'DEBUG',
+        },
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'utc'
+DATETIME_FORMAT = '%d-%m-%Y %H:%M:%S'
 
 USE_I18N = True
 

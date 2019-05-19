@@ -1,0 +1,30 @@
+INFO 2019-05-05 13:35:55,978 views 24848 22308 state_district_tehsil dataframe is ready
+INFO 2019-05-05 13:36:00,683 views 24848 12072 returning state list['CHANDIGARH', 'CHHATTISGARH', 'HARYANA', 'HIMACHAL PRADESH', 'JHARKHAND', 'MAHARASHTRA', 'NCT OF DELHI', 'RAJASTHAN', 'UTTAR PRADESH', 'UTTARAKHAND']
+INFO 2019-05-05 13:40:01,202 views 17616 9332 state_district_tehsil dataframe is ready
+INFO 2019-05-05 13:43:37,111 views 16036 1324 state_district_tehsil dataframe is ready
+INFO 2019-05-05 13:44:14,303 views 6352 21168 state_district_tehsil dataframe is ready
+ERROR 2019-05-05 13:44:18,283 views 6352 11380 user creation failed : {'first_name': [ErrorDetail(string='This field is required.', code='required')], 'last_name': [ErrorDetail(string='This field is required.', code='required')], 'milk_type': [ErrorDetail(string='This field is required.', code='required')]}
+INFO 2019-05-05 13:45:39,620 views 20452 29228 state_district_tehsil dataframe is ready
+WARNING 2019-05-05 13:45:41,899 views 20452 18480 user creation failed : {'first_name': [ErrorDetail(string='This field is required.', code='required')], 'last_name': [ErrorDetail(string='This field is required.', code='required')], 'milk_type': [ErrorDetail(string='This field is required.', code='required')]}
+INFO 2019-05-05 14:00:15,933 views 13968 1884 state_district_tehsil dataframe is ready
+WARNING 2019-05-05 14:00:25,655 views 13968 15084 user creation failed : {'first_name': [ErrorDetail(string='This field is required.', code='required')], 'last_name': [ErrorDetail(string='This field is required.', code='required')], 'milk_type': [ErrorDetail(string='This field is required.', code='required')]}
+INFO 2019-05-05 14:00:58,480 views 13968 15084 get user detail : {'mobile': '9990380315', 'first_name': 'Harsh', 'last_name': 'SN', 'gender': 'M', 'dob': '1994-06-13', 'state': 'HR', 'district': 'BH', 'tehsil': 'abc', 'village': 'Jatoli', 'daily_milk_production': 10, 'milk_type': 'cow', 'number_animals': 4}
+INFO 2019-05-05 14:05:16,441 views 13968 15084 user detail succesfully updated : {'mobile': '9990380315', 'first_name': 'Harsh', 'last_name': 'SN', 'gender': 'M', 'dob': '1994-06-13', 'state': 'HR', 'district': 'BH', 'tehsil': 'hodl', 'village': 'Jatoli', 'daily_milk_production': 10, 'milk_type': 'cow', 'number_animals': 4}
+INFO 2019-05-05 14:05:30,946 views 13968 15084 user detail succesfully updated : {'mobile': '9990380315', 'first_name': 'Harsh', 'last_name': 'SN', 'gender': 'M', 'dob': '1994-06-13', 'state': 'HR', 'district': 'BH', 'tehsil': 'hodl', 'village': 'Jatoli', 'daily_milk_production': 10, 'milk_type': 'cow', 'number_animals': 4}
+WARNING 2019-05-05 14:05:39,816 views 13968 15084 user updation failed : {'first_name': [ErrorDetail(string='This field is required.', code='required')]}
+INFO 2019-05-05 14:13:14,295 views 256 14580 state_district_tehsil dataframe is ready
+INFO 2019-05-05 14:13:35,203 views 256 27072 returning state list['CHANDIGARH', 'CHHATTISGARH', 'HARYANA', 'HIMACHAL PRADESH', 'JHARKHAND', 'MAHARASHTRA', 'NCT OF DELHI', 'RAJASTHAN', 'UTTAR PRADESH', 'UTTARAKHAND']
+INFO 2019-05-05 14:15:10,567 views 16280 10088 state_district_tehsil dataframe is ready
+INFO 2019-05-05 14:17:52,021 views 22368 18680 state_district_tehsil dataframe is ready
+INFO 2019-05-05 14:18:24,084 views 22368 11488 OTP succesfully sent : 9990380315
+WARNING 2019-05-05 14:18:49,638 views 22368 11488 OTP verification failed : 9990380315,otp_not_verified
+INFO 2019-05-05 14:19:20,191 views 22368 11488 OTP succesfully verified : 9990380315
+INFO 2019-05-05 14:20:31,727 views 29192 28276 state_district_tehsil dataframe is ready
+WARNING 2019-05-05 14:20:41,010 views 29192 16052 OTP verification failed : 9990380315,already_verified
+INFO 2019-05-05 14:21:10,845 views 29192 16052 OTP succesfully sent : 9990380315
+INFO 2019-05-05 14:21:31,883 views 29192 16052 OTP succesfully verified and user exist: 9990380315
+INFO 2019-05-05 14:23:46,172 views 18664 716 state_district_tehsil dataframe is ready for states {state_list}
+INFO 2019-05-05 14:23:51,064 views 9508 27428 state_district_tehsil dataframe is ready for states ['CHANDIGARH', 'CHHATTISGARH', 'HARYANA', 'HIMACHAL PRADESH', 'JHARKHAND', 'MAHARASHTRA', 'NCT OF DELHI', 'RAJASTHAN', 'UTTAR PRADESH', 'UTTARAKHAND']
+INFO 2019-05-05 14:49:43,691 views 8048 19700 state_district_tehsil dataframe is ready for states ['CHANDIGARH', 'CHHATTISGARH', 'HARYANA', 'HIMACHAL PRADESH', 'JHARKHAND', 'MAHARASHTRA', 'NCT OF DELHI', 'RAJASTHAN', 'UTTAR PRADESH', 'UTTARAKHAND']
+INFO 2019-05-05 14:51:38,391 views 19696 24340 state_district_tehsil dataframe is ready for states ['CHANDIGARH', 'CHHATTISGARH', 'HARYANA', 'HIMACHAL PRADESH', 'JHARKHAND', 'MAHARASHTRA', 'NCT OF DELHI', 'RAJASTHAN', 'UTTAR PRADESH', 'UTTARAKHAND']
+INFO 2019-05-05 15:06:06,009 views 26924 7920 state_district_tehsil dataframe is ready for states ['CHANDIGARH', 'CHHATTISGARH', 'HARYANA', 'HIMACHAL PRADESH', 'JHARKHAND', 'MAHARASHTRA', 'NCT OF DELHI', 'RAJASTHAN', 'UTTAR PRADESH', 'UTTARAKHAND']
